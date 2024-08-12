@@ -26,12 +26,13 @@ const Card=()=>{
     
     const latAndLon = async()=>{
         const data = await latLon(country);
-        const current_forecast = await weatherdata(data.lat,data.lon);
+
+        const current_forecast = await weatherdata(data.lat,data.lon,country);
 
         setForecast(current_forecast[1]);
         setCurrentTemp(current_forecast[0]);
         setAqi(current_forecast[2])
-
+        
     }
     return(
         <div>
@@ -72,8 +73,8 @@ const Card=()=>{
                                     {`${currentTemp.weather[0].main} ${Math.round(currentTemp.main.temp_max)}°/${Math.round(currentTemp.main.temp_min)}°`}
                                 </div>
                                 <div className="flex justify-center">
-                                    <div className={ `${aqi.list[0].main.aqi <3 ? "bg-green-400":"bg-red-600"} text-center w-20 rounded-2xl py-1 text-base` }>
-                                        AQI {aqi.list[0].main.aqi}
+                                    <div className={ `${aqi.aqi <50 ? "bg-green-400":"bg-red-600"} text-center w-20 rounded-2xl py-1 text-base` }>
+                                        AQI {aqi.aqi}
                                     </div>
                                 </div>
                             </div>

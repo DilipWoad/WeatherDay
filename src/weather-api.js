@@ -1,4 +1,5 @@
 const API_KEY = 'ff45f0623e2a0fa85c372a8a65935da4';
+const AQI_API_KEY = '6066c59e6b7fd15bd606f5a0ba049799de1dd570';
 
 //Getting Lat and Lon value from geocoding api
 // const cityName ="mumbai";
@@ -17,13 +18,13 @@ const latLon = async(cityName)=>{
     }
 }
 
-const weatherdata = async(lat,lon,units = "metric")=>{
+const weatherdata = async(lat,lon,city,units = "metric")=>{
     const date =new Date();
     const currentDate = date.getDate();
     
     const CURRENT_URL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=${units}`;
     const FORECAST_URL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=${units}`;
-    const AQI_URL = `http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`
+    const AQI_URL = `https://api.waqi.info/feed/${city}/?token=${AQI_API_KEY}`
     
     const currentData = await fetch(CURRENT_URL)
     .then((res)=>res.json())
@@ -78,7 +79,7 @@ const weatherdata = async(lat,lon,units = "metric")=>{
 
     const aqiData = await fetch(AQI_URL)
     .then((res)=>res.json())
-    .then((data)=>data);
+    .then((aqidata)=> aqidata.data)
 
     return [currentData,forecasteData,aqiData]
 
