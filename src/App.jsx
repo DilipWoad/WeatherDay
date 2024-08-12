@@ -8,7 +8,7 @@ function App() {
   return (
     <>
       <div className='w-screen h-screen flex justify-center items-center'>
-        <div className="bg-green-500 w-96 h-auto md:w-[50%] rounded-md md:max-w-xl md:h-auto ">
+        <div className=" w-96 h-auto md:w-[50%] rounded-md md:max-w-xl md:h-auto shadow-2xl">
         <Card />
         </div> 
       </div>   

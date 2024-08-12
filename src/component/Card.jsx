@@ -40,19 +40,19 @@ const Card=()=>{
                 <input 
                 type="text"
                 placeholder="Search City..."
-                className="w-full h-10 mr-3 px-3 rounded-md"
+                className="w-full h-10 mr-3 px-3 rounded-md bg-stone-300 placeholder:text-slate-600 outline-gray-400"
                 value={country}
                 onChange={handleChange}
                 ></input>
                 <button 
                 type="submit"
-                className="bg-white rounded-md px-3"
+                className="bg-blue-500 rounded-md px-3"
                 >Find</button>
             </div>
         </form>
         {currentTemp && (
-            <div className=" bg-purple-400 p-3 space-y-4 mx-3 rounded-lg md:h-auto md:grid md:grid-cols-2 md:gap-3 md:space-y-0">
-                <div className="bg-red-400 h-96 rounded-lg md:h-72 flex justify-center items-center">
+            <div className=" bg-sky-400 p-3 space-y-4 mx-3 rounded-lg md:h-auto md:grid md:grid-cols-2 md:gap-3 md:space-y-0">
+                <div className="bg-red-400 h-96 rounded-lg md:h-72 flex justify-center items-center shadow-2xl">
                     <div className=" ">
                         <div className=" h-8  text-center">
                             <div className="text-xl font-semibold mb-5 ">
@@ -80,13 +80,13 @@ const Card=()=>{
                         </div>
                     </div>
                 </div>
-                <div className="bg-emerald-400 h-full">
-                    <div className=" bg-indigo-400 h-24 rounded-lg hidden md:block ">
-                        <div className="h-8 bg-pink-300 text-center font-semibold text-2xl">
+                <div className="bg-emerald-400 h-full space-y-3">
+                    <div className=" bg-indigo-400 h-28 mb-2 rounded-lg hidden md:block overflow-hidden">
+                        <div className="h-8 text-center font-semibold text-xl">
                             Today
                         </div>
-                        <div className="bg-yellow-200 h-16 w-full justify-between items-center flex px-3">
-                            <div className="bg-green-300  ">
+                        <div className="bg-yellow-200 h-20 w-full justify-between items-center flex px-3 ">
+                            <div className=" ">
                                 <img className="h-16" src={`https://openweathermap.org/img/wn/${currentTemp.weather[0].icon}@2x.png`} alt="Today's Icon" />
                             </div>
                             <div>
@@ -97,14 +97,14 @@ const Card=()=>{
                                 </div> 
                                 <div className="flex">
                                     <img src="https://cdn-icons-png.flaticon.com/32/1171/1171289.png" alt="" />
-                                    <div className="flex justify-center items-center m-1 font-semibold">{currentTemp.wind.speed}</div>
+                                    <div className="flex justify-center items-center m-1 font-semibold">{currentTemp.wind.speed}<span className="ml-1 font-normal text-sm">km/s</span></div>
                                     
                                 </div>    
                             </div>    
                         </div>
                     </div>
-                    <div className="bg-orange-400 h-full rounded-lg py-3  md:h-48 md:min-w-[170px] ">
-                        <div className="">
+                    <div className="bg-orange-400 h-auto rounded-lg py-3 md:h-auto md:min-w-[170px] ">
+                        <div className="space-y-1">
                             <MainInfo name="Feels Like" value={Math.round(currentTemp.main.feels_like)} units="°C" />
                             <MainInfo name="Humidity" value={Math.round(currentTemp.main.humidity)} units="%"/>
                             <MainInfo name="Pressure" value={Math.round(currentTemp.main.pressure)} units="mbar"/>
@@ -115,7 +115,7 @@ const Card=()=>{
 
                 </div>
                 <div className="hidden md:block md:col-span-2">
-                    <div className="bg-pink-600  rounded-lg h-44 flex justify-center items-center gap-2 ">
+                    <div className="bg-pink-600  rounded-lg h-44 flex justify-center items-center gap-2 shadow-2xl px-3">
                     <Forecast Day={weekdDay[(day+1)%7]} Icon={forecast.max_min_icon[0]} maxTemp={Math.round(forecast.maxValues[0])} minTemp={Math.round(forecast.minValues[0])}/>  
                     <Forecast Day={weekdDay[(day+2)%7]} Icon={forecast.max_min_icon[1]} maxTemp={Math.round(forecast.maxValues[1])} minTemp={Math.round(forecast.minValues[1])}/>
                     <Forecast Day={weekdDay[(day+3)%7]} Icon={forecast.max_min_icon[2]} maxTemp={Math.round(forecast.maxValues[2])} minTemp={Math.round(forecast.minValues[2])}/>
