@@ -1,4 +1,4 @@
-import { useState} from "react";
+import { useEffect, useState} from "react";
 
 import { weatherdata,latLon } from '../weather-api'
 import MainInfo from "./MainInfo";
@@ -28,12 +28,21 @@ const Card=()=>{
         const data = await latLon(country);
 
         const current_forecast = await weatherdata(data.lat,data.lon,country);
-
+        // console.log(current_forecast)
+        localStorage.setItem("forecastData",JSON.stringify(current_forecast));
         setForecast(current_forecast[1]);
         setCurrentTemp(current_forecast[0]);
         setAqi(current_forecast[2])
         
     }
+    useEffect(()=>{
+        const currentDataStr =localStorage.getItem("forecastData");
+        const currentData = JSON.parse(currentDataStr);
+        // console.log(currentData);
+        setForecast(currentData[1]);
+        setCurrentTemp(currentData[0]);
+        setAqi(currentData[2])
+    },[])
     return(
         <div>
         <form onSubmit={handleSubmit}>
