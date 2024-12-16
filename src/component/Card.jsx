@@ -39,9 +39,12 @@ const Card=()=>{
         const currentDataStr =localStorage.getItem("forecastData");
         const currentData = JSON.parse(currentDataStr);
         // console.log(currentData);
-        setForecast(currentData[1]);
-        setCurrentTemp(currentData[0]);
-        setAqi(currentData[2])
+        if(currentData!== null){
+            setForecast(currentData[1]);
+            setCurrentTemp(currentData[0]);
+            setAqi(currentData[2])
+        }
+        
     },[])
     return(
         <div>
