@@ -29,14 +29,14 @@ const Card=()=>{
 
         const current_forecast = await weatherdata(data.lat,data.lon,country);
         // console.log(current_forecast)
-        localStorage.setItem("forecastData",JSON.stringify(current_forecast));
+        sessionStorage.setItem("forecastData",JSON.stringify(current_forecast));
         setForecast(current_forecast[1]);
         setCurrentTemp(current_forecast[0]);
         setAqi(current_forecast[2])
         
     }
     useEffect(()=>{
-        const currentDataStr =localStorage.getItem("forecastData");
+        const currentDataStr =sessionStorage.getItem("forecastData");
         const currentData = JSON.parse(currentDataStr);
         // console.log(currentData);
         if(currentData!== null){
