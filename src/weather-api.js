@@ -23,7 +23,7 @@ const weatherdata = async(lat,lon,city,units = "metric")=>{
     const currentDate = date.getDate();
 
     const dtt =  endOfMonth(date).toLocaleDateString().substring(0,2);
-    console.log(dtt);
+    // console.log(dtt);
     function endOfMonth(date){
      
     return new Date(date.getFullYear(), date.getMonth() + 1, 0);
@@ -45,7 +45,8 @@ const weatherdata = async(lat,lon,city,units = "metric")=>{
     const forecasteData = await fetch(FORECAST_URL)
     .then((res)=>res.json())
     .then((data)=>
-    {   console.log(data);
+    {   
+        // console.log(data);
         const forecasts = data.list;
         
         const foreCast = forecasts.map((forecast)=>{
@@ -58,7 +59,7 @@ const weatherdata = async(lat,lon,city,units = "metric")=>{
             var dat = forecast.dt_txt.split(" ")[0].split("-")[2];
             return Object.defineProperty(forecast, "dt_txt", {value:dat});
         }).filter((fore)=>fore.dt_txt>currentDate)
-        console.log(foreCast);
+        // console.log(foreCast);
         
         for(var i=currentDate+1;i<=currentDate+5;i++){//27 to 32
             let loopMaxTemp =[];

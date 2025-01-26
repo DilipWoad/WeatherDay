@@ -32,9 +32,9 @@ const Card=()=>{
         const data = await latLon(country);
 
         const current_forecast = await weatherdata(data.lat,data.lon,country);
-        console.log(current_forecast)
+        // console.log(current_forecast)
         sessionStorage.setItem("forecastData",JSON.stringify(current_forecast));
-        console.log(forecast)
+        // console.log(forecast)
         setForecast(current_forecast[1]);
         setCurrentTemp(current_forecast[0]);
         setAqi(current_forecast[2])
