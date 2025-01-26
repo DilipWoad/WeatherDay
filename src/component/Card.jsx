@@ -145,8 +145,8 @@ const Card=()=>{
                     <Forecast Day={weekdDay[(day+3)%7]} Icon={forecast.max_min_icon[2]} maxTemp={Math.round(forecast.maxValues[2])} minTemp={Math.round(forecast.minValues[2])}/>
                     <Forecast Day={weekdDay[(day+4)%7]} Icon={forecast.max_min_icon[3]} maxTemp={Math.round(forecast.maxValues[3])} minTemp={Math.round(forecast.minValues[3])}/>
                     <Forecast Day={weekdDay[(day+5)%7]} Icon={!forecast.max_min_icon[4] ? forecast.max_min_icon[2] :forecast.max_min_icon[4]} 
-                    maxTemp={Math.round(forecast.maxValues[4] ==-Infinity ?forecast.maxValues[2] :forecast.maxValues[4])} 
-                    minTemp={Math.round(forecast.minValues[4]== -Infinity ? forecast.minValues[2] :forecast.minValues[4])}/>
+                    maxTemp={Math.round(forecast.maxValues[4] ==-Infinity || Infinity?forecast.maxValues[2] :forecast.maxValues[4])} 
+                    minTemp={Math.round(forecast.minValues[4]== -Infinity || Infinity?  forecast.minValues[2] :forecast.minValues[4])}/>
                 </div>
                 </div>
                 <div onClick={()=>setShowForecast(!showForecast)} className="bg-lime-400 text-xl text-center py-3 rounded-l-full rounded-r-full md:hidden">
