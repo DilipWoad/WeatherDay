@@ -3,12 +3,15 @@ import { useEffect, useState} from "react";
 import { weatherdata,latLon } from '../weather-api'
 import MainInfo from "./MainInfo";
 import Forecast from "./Forecast";
+import ShimmerUi from "./ShimmerUi";
 
 const Card=()=>{
     const [country,setCountry] = useState("");
     const [currentTemp,setCurrentTemp] = useState(null);
     const [aqi,setAqi] = useState(null);
     const [forecast,setForecast] = useState(null);
+    const [showForecast,setShowForecast] = useState(false);
+    const [showShimmer,setShowShimmer] = useState(false);
 
     const weekdDay = ["Sun","Mon","Tue","Wed","Thu","Fir","Sat"];
 
@@ -17,6 +20,7 @@ const Card=()=>{
    
     const handleSubmit=(e)=>{
         e.preventDefault();
+        setShowShimmer(!showShimmer);
         latAndLon();
         setCountry("");
     }
@@ -28,8 +32,9 @@ const Card=()=>{
         const data = await latLon(country);
 
         const current_forecast = await weatherdata(data.lat,data.lon,country);
-        // console.log(current_forecast)
+        console.log(current_forecast)
         sessionStorage.setItem("forecastData",JSON.stringify(current_forecast));
+        console.log(forecast)
         setForecast(current_forecast[1]);
         setCurrentTemp(current_forecast[0]);
         setAqi(current_forecast[2])
@@ -39,13 +44,17 @@ const Card=()=>{
         const currentDataStr =sessionStorage.getItem("forecastData");
         const currentData = JSON.parse(currentDataStr);
         // console.log(currentData);
-        if(currentData!== null){
-            setForecast(currentData[1]);
-            setCurrentTemp(currentData[0]);
-            setAqi(currentData[2])
+        if(!currentTemp){
+            if(currentData!== null){
+                setForecast(currentData[1]);
+                setCurrentTemp(currentData[0]);
+                setAqi(currentData[2])
+            }
         }
         
+        
     },[])
+
     return(
         <div>
         <form onSubmit={handleSubmit}>
@@ -53,7 +62,7 @@ const Card=()=>{
                 <input 
                 type="text"
                 placeholder="Search City..."
-                className="w-full h-10 mr-3 px-3 rounded-md bg-stone-300 placeholder:text-slate-600 outline-gray-400"
+                className="w-full h-10 mr-3 px-3 rounded-md bg-stone-300 placeholder:text-slate-600 outline-gray-400 shadow-lg"
                 value={country}
                 onChange={handleChange}
                 ></input>
@@ -63,9 +72,10 @@ const Card=()=>{
                 >Find</button>
             </div>
         </form>
-        {currentTemp && (
-            <div className=" bg-sky-400 p-3 space-y-4 mx-3 rounded-lg md:h-auto md:grid md:grid-cols-2 md:gap-3 md:space-y-0">
-                <div className="bg-red-400 h-96 rounded-lg md:h-72 flex justify-center items-center shadow-2xl">
+        
+            <div className="  p-3 space-y-4 mx-3 rounded-lg md:h-auto md:grid md:grid-cols-2 md:gap-3 md:space-y-0">
+                {!currentTemp ? showShimmer && <ShimmerUi showForecast={showForecast}/> : (
+                    <><div className="bg-red-400 h-96 rounded-lg md:h-72 flex justify-center items-center shadow-2xl">
                     <div className=" ">
                         <div className=" h-8  text-center">
                             <div className="text-xl font-semibold mb-5 ">
@@ -127,17 +137,25 @@ const Card=()=>{
                     </div>
 
                 </div>
-                <div className="hidden md:block md:col-span-2">
-                    <div className="bg-pink-600  rounded-lg h-44 flex justify-center items-center gap-2 shadow-2xl px-3">
+                
+                <div className={`${showForecast ? "":"hidden"} md:block md:col-span-2 bg-pink-400 rounded-lg overflow-x-scroll md:overscroll-none `}>
+                <div className="h-44 flex justify-center items-center gap-2 shadow-2xl px-3 ml-28 md:ml-0">
                     <Forecast Day={weekdDay[(day+1)%7]} Icon={forecast.max_min_icon[0]} maxTemp={Math.round(forecast.maxValues[0])} minTemp={Math.round(forecast.minValues[0])}/>  
                     <Forecast Day={weekdDay[(day+2)%7]} Icon={forecast.max_min_icon[1]} maxTemp={Math.round(forecast.maxValues[1])} minTemp={Math.round(forecast.minValues[1])}/>
                     <Forecast Day={weekdDay[(day+3)%7]} Icon={forecast.max_min_icon[2]} maxTemp={Math.round(forecast.maxValues[2])} minTemp={Math.round(forecast.minValues[2])}/>
                     <Forecast Day={weekdDay[(day+4)%7]} Icon={forecast.max_min_icon[3]} maxTemp={Math.round(forecast.maxValues[3])} minTemp={Math.round(forecast.minValues[3])}/>
-                    <Forecast Day={weekdDay[(day+5)%7]} Icon={forecast.max_min_icon[4]} maxTemp={Math.round(forecast.maxValues[4])} minTemp={Math.round(forecast.minValues[4])}/>
+                    <Forecast Day={weekdDay[(day+5)%7]} Icon={!forecast.max_min_icon[4] ? forecast.max_min_icon[2] :forecast.max_min_icon[4]} 
+                    maxTemp={Math.round(forecast.maxValues[4] ==-Infinity ?forecast.maxValues[2] :forecast.maxValues[4])} 
+                    minTemp={Math.round(forecast.minValues[4]== -Infinity ? forecast.minValues[2] :forecast.minValues[4])}/>
                 </div>
                 </div>
+                <div onClick={()=>setShowForecast(!showForecast)} className="bg-lime-400 text-xl text-center py-3 rounded-l-full rounded-r-full md:hidden">
+                    <span>{showForecast ? "Hide":"Show"}</span> Five day Forecast
+                </div>
+                    </>
+                )}
+                
             </div>
-        )}
         
         </div>
     )

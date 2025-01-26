@@ -1,7 +1,7 @@
 const Forecast =(props)=>{
     const ICON_URL = `https://openweathermap.org/img/wn/${props.Icon}@2x.png`
     return(
-        <div className="bg-white h-36 w-24 rounded-lg grid place-content-center gap-2">
+        <div className="bg-white h-36 min-w-20 rounded-lg grid place-content-center gap-2">
             <div className="bg-red-300 flex justify-center items-center">
                 {props.Day}
             </div>
