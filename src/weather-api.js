@@ -25,9 +25,7 @@ const weatherdata = async(lat,lon,city,units = "metric")=>{
     const dtt =  endOfMonth(date).toLocaleDateString().substring(0,2);
     // console.log(dtt);
     function endOfMonth(date){
-     
-    return new Date(date.getFullYear(), date.getMonth() + 1, 0);
- 
+        return new Date(date.getFullYear(), date.getMonth() + 1, 0);
     } 
     
     const CURRENT_URL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=${units}`;
@@ -59,9 +57,9 @@ const weatherdata = async(lat,lon,city,units = "metric")=>{
             var dat = forecast.dt_txt.split(" ")[0].split("-")[2];
             return Object.defineProperty(forecast, "dt_txt", {value:dat});
         }).filter((fore)=>fore.dt_txt>currentDate)
-        // console.log(foreCast);
+        console.log(foreCast);
         
-        for(var i=currentDate+1;i<=currentDate+5;i++){//27 to 32
+        for(var i=currentDate+1;i<=currentDate+5;i++){//30 t0 35
             let loopMaxTemp =[];
             let loopMinTemp =[];
             let loopIcon = [];
